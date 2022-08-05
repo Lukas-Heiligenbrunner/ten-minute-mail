@@ -1,6 +1,7 @@
 name: ten_minute_mail
 description: A client library for 10MinuteMail temporary mails
 version: 0.1.0
+homepage: https://github.com/Lukas-Heiligenbrunner/ten-minute-mail
 
 environment:
   sdk: '>=2.17.6 <3.0.0'
