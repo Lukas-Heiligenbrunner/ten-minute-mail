@@ -20,7 +20,7 @@ class TenMinuteMail {
     return _messages;
   }
 
-  String getAddress(){
+  String getAddress() {
     return _address;
   }
 
@@ -30,7 +30,7 @@ class TenMinuteMail {
     _msgCount = 0;
 
     var resp = await _httpGetJson(newEmail) as Map<String, dynamic>;
-    String adr =  resp["address"];
+    String adr = resp["address"];
     _address = adr;
   }
 
@@ -38,9 +38,11 @@ class TenMinuteMail {
     int msgCnt = await _fetchMessageCount();
 
     if (msgCnt > _msgCount) {
-      var resp = await _httpGetJson(messageAfter + (msgCnt - 1).toString()) as Iterable;
+      var resp = await _httpGetJson(messageAfter + (msgCnt - 1).toString())
+          as Iterable;
 
-      final List<Mail> mails = List<Mail>.from(resp.map((model) => Mail.fromJson(model)));
+      final List<Mail> mails =
+          List<Mail>.from(resp.map((model) => Mail.fromJson(model)));
       _messages.addAll(mails);
       _msgCount = msgCnt;
     }
@@ -64,6 +66,7 @@ class TenMinuteMail {
       return {};
     }
   }
+
   Map<String, String> headers = {};
 
   void updateCookie(http.Response response) {
@@ -71,7 +74,7 @@ class TenMinuteMail {
     if (rawCookie != null) {
       int index = rawCookie.indexOf(';');
       headers['cookie'] =
-      (index == -1) ? rawCookie : rawCookie.substring(0, index);
+          (index == -1) ? rawCookie : rawCookie.substring(0, index);
     }
   }
 }

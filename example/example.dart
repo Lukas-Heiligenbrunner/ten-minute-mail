@@ -6,7 +6,7 @@ Future<void> main() async {
   await awesome.init();
   print('Your address: ${awesome.getAddress()}');
 
-  while(true){
+  while (true) {
     await awesome.fetchMails();
     print('Your inbox: ${awesome.getMails().length}');
     print('Your inbox: ${awesome.getMails().toString()}');
