@@ -8,6 +8,8 @@ class Api {
   static const _newEmail = "$_baseUrl/session/address";
   static const _messageAfter = "$_baseUrl/messages/messagesAfter/";
   static const _messageCount = "$_baseUrl/messages/messageCount";
+  static const _secondsLeft = "$_baseUrl/session/secondsLeft";
+  static const _reset = "$_baseUrl/session/reset";
 
   Future<int> fetchMessageCount() async {
     final resp = await _http.httpGetJson(_messageCount) as Map<String, dynamic>;
@@ -32,5 +34,17 @@ class Api {
       return mails;
     }
     return [];
+  }
+
+  Future<int> fetchRemainingTime() async {
+    final resp = await _http.httpGetJson(_secondsLeft) as Map<String, dynamic>;
+    final String secLeft = resp["secondsLeft"];
+    return int.tryParse(secLeft) ?? 0;
+  }
+
+  Future<bool> resetTimeCounter() async {
+    final resp = await _http.httpGetJson(_reset) as Map<String, dynamic>;
+    final String success = resp["Response"];
+    return success == "reset";
   }
 }

@@ -30,4 +30,4 @@ jobs:
         run: flutter analyze ./lib ./example
 
       - name: Run tests
-        run: flutter test -r expanded
+        run: flutter test -r expanded test/main_test.dart
