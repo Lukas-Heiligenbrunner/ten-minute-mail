@@ -7,6 +7,7 @@ class TenMinuteMail {
   int _msgCount = 0;
   late String _address = "";
   Api _api = Api();
+  int _remainingTime = 0;
 
   /// initalize service and receive new mail address
   Future init() async {
@@ -15,6 +16,7 @@ class TenMinuteMail {
     _msgCount = 0;
 
     _address = await _api.fetchAddress();
+    await _setRemainingTime();
   }
 
   /// get all buffered messages
@@ -32,11 +34,28 @@ class TenMinuteMail {
     return _msgCount;
   }
 
+  /// get remaining time in seconds until address is invalid
+  int getRemainingTime() {
+    final int timeNow = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    return _remainingTime - timeNow;
+  }
+
+  Future resetRemainingTime() async {
+    await _api.resetTimeCounter();
+    await _setRemainingTime();
+  }
+
   /// fetch new mails available from server
   Future<List<Mail>> fetchMails() async {
     var newMsgs = await _api.fetchNewMails(_msgCount);
     _messages.addAll(newMsgs);
     _msgCount += newMsgs.length;
     return _messages;
+  }
+
+  Future _setRemainingTime() async {
+    final remainingSecs = await _api.fetchRemainingTime();
+    final int timeNow = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    _remainingTime = timeNow + remainingSecs;
   }
 }
