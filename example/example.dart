@@ -1,4 +1,3 @@
-import 'package:ten_minute_mail/src/ten_minute_mail.dart';
 import 'package:ten_minute_mail/ten_minute_mail.dart';
 
 Future<void> main() async {
