@@ -11,7 +11,7 @@ Future<void> main() async {
     print('Your inbox: ${mailing.getMails().toString()}');
     print('Remaining time: ${mailing.getRemainingTime().toString()}');
     await Future.delayed(Duration(seconds: 5));
-    if(mailing.getRemainingTime() < 500){
+    if (mailing.getRemainingTime() < 500) {
       print("resetting time");
       await mailing.resetRemainingTime();
     }
