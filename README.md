@@ -1,8 +1,9 @@
 # ten_minute_mail
 
-A Dart library for the 10MinuteMail api
+A Dart library for the 10MinuteMail api.
+See on [pub.dev](https://pub.dev/packages/ten_minute_mail).
 
-## Usage
+## Basic usage
 
 ```dart
   var mailing = TenMinuteMail();
