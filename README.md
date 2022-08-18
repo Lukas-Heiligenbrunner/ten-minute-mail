@@ -6,16 +6,25 @@ See on [pub.dev](https://pub.dev/packages/ten_minute_mail).
 ## Basic usage
 
 ```dart
-  var mailing = TenMinuteMail();
-  // init lib and receive mail address
-  await mailing.init();
-  print('Your address: ${mailing.getAddress()}');
-  
+final mailing = TenMinuteMail();
+// init lib and receive mail address
+await mailing.init();
+print('Your address: ${mailing.getAddress()}');
+
+while (mailing.getRemainingTime() > 0) {
   // fetch if there are new mails in inbox
   await mailing.fetchMails();
   // print current mail index
-  print('Your inbox: ${mailing.getMails().length}');
+  print('Your inbox cnt: ${mailing.getMessageCount()}');
   print('Your inbox: ${mailing.getMails().toString()}');
+  print('Remaining time: ${mailing.getRemainingTime().toString()}');
+  await Future.delayed(Duration(seconds: 5));
+  // if remaining time too low request more time
+  if (mailing.getRemainingTime() < 500) {
+    print("requesting more time");
+    await mailing.resetRemainingTime();
+  }
+}
 ```
 
 

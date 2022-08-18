@@ -5,7 +5,7 @@ import 'mail.dart';
 class TenMinuteMail {
   List<Mail> _messages = [];
   int _msgCount = 0;
-  late String _address = "";
+  String _address = "";
   Api _api = Api();
   int _remainingTime = 0;
 
@@ -47,7 +47,7 @@ class TenMinuteMail {
 
   /// fetch new mails available from server
   Future<List<Mail>> fetchMails() async {
-    var newMsgs = await _api.fetchNewMails(_msgCount);
+    final newMsgs = await _api.fetchNewMails(_msgCount);
     _messages.addAll(newMsgs);
     _msgCount += newMsgs.length;
     return _messages;

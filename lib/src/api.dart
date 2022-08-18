@@ -22,8 +22,7 @@ class Api {
   Future<String> fetchAddress() async {
     final resp =
         await _http.httpGetJson(_EndPoints.newEmail) as Map<String, dynamic>;
-    String adr = resp["address"];
-    return adr;
+    return resp["address"] as String;
   }
 
   Future<List<Mail>> fetchNewMails(int oldmessageCnt) async {
@@ -43,14 +42,12 @@ class Api {
   Future<int> fetchRemainingTime() async {
     final resp =
         await _http.httpGetJson(_EndPoints.secondsLeft) as Map<String, dynamic>;
-    final String secLeft = resp["secondsLeft"];
-    return int.tryParse(secLeft) ?? 0;
+    return int.tryParse(resp["secondsLeft"]) ?? 0;
   }
 
   Future<bool> resetTimeCounter() async {
     final resp =
         await _http.httpGetJson(_EndPoints.reset) as Map<String, dynamic>;
-    final String success = resp["Response"];
-    return success == "reset";
+    return resp["Response"] == "reset";
   }
 }
