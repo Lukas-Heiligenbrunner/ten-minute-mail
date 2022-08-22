@@ -4,7 +4,7 @@ A Dart library for the 10MinuteMail api.
 See on [pub.dev](https://pub.dev/packages/ten_minute_mail).
 
 ## Basic usage
-
+### Manual polling
 ```dart
 final mailing = TenMinuteMail();
 // init lib and receive mail address
@@ -26,7 +26,24 @@ while (mailing.getRemainingTime() > 0) {
   }
 }
 ```
+### Stream polling
 
+```dart
+final mailing = TenMinuteMail();
+await mailing.init();
+print('Your address: ${mailing.getAddress()}');
+
+// start polling
+final msgStr = mailing.onMessagePoll(Duration(seconds: 10));
+msgStr.listen((mail) {
+    print("new mail received");
+    print(mail);
+});
+
+await Future.delayed(Duration(minutes: 1));
+// stop polling
+mailing.stopMessagePolling();
+```
 
 ## License
 Copyright 2022 Lukas Heiligenbrunner
