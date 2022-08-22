@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ten_minute_mail/src/api.dart';
 
 import 'mail.dart';
@@ -9,6 +11,7 @@ class TenMinuteMail {
   Api _api = Api();
   int _remainingTime = 0;
   bool _pollLoopAlive = false;
+  final StreamController<Mail> _sc = StreamController();
 
   /// initalize service and receive new mail address
   Future init() async {
@@ -55,7 +58,20 @@ class TenMinuteMail {
   }
 
   /// start polling for messages in interval
-  Stream<Mail> onMessagePoll(Duration interval) async* {
+  Stream<Mail> onMessagePoll(Duration interval) {
+    _startPollingLoop(interval);
+    return _sc.stream;
+  }
+
+  /// stop message polling if active
+  void stopMessagePolling() {
+    _pollLoopAlive = false;
+  }
+
+  void _startPollingLoop(Duration interval) async {
+    if (_pollLoopAlive) {
+      return;
+    }
     _pollLoopAlive = true;
     while (_pollLoopAlive) {
       final int oldCnt = _msgCount;
@@ -63,16 +79,11 @@ class TenMinuteMail {
       final mails = await fetchMails();
       if (_msgCount > oldCnt) {
         for (final msg in mails.getRange(oldCnt, _msgCount)) {
-          yield msg;
+          _sc.add(msg);
         }
       }
       await Future.delayed(interval);
     }
-  }
-
-  /// stop message polling if active
-  void stopMessagePolling() {
-    _pollLoopAlive = false;
   }
 
   Future _setRemainingTime() async {

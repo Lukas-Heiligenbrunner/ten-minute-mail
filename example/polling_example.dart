@@ -5,8 +5,8 @@ Future<void> main() async {
   await mailing.init();
   print('Your address: ${mailing.getAddress()}');
 
-  final str = mailing.onMessagePoll(Duration(seconds: 10));
-  str.listen((mail) {
+  final msgStr = mailing.onMessagePoll(Duration(seconds: 10));
+  msgStr.listen((mail) {
     print("new mail received");
     print(mail);
   });
